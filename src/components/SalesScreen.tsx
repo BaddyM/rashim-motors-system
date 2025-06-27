@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, Plus, DollarSign, Calendar, User, Car } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Search, Plus, DollarSign, Calendar, User, Car, LayoutGrid, LayoutList } from "lucide-react";
 
 const SalesScreen = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
 
   const sales = [
     {
@@ -84,6 +87,35 @@ const SalesScreen = () => {
   const totalSales = filteredSales.reduce((sum, sale) => sum + sale.salePrice, 0);
   const totalCommission = filteredSales.reduce((sum, sale) => sum + sale.commission, 0);
 
+  const SaleModal = ({ sale }: { sale: any }) => (
+    <DialogContent className="max-w-2xl">
+      <DialogHeader>
+        <DialogTitle>Sale #{sale.id.toString().padStart(4, '0')}</DialogTitle>
+        <DialogDescription>Sale Details</DialogDescription>
+      </DialogHeader>
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        <div>
+          <h4 className="font-semibold text-gray-700">Sale Information</h4>
+          <div className="mt-2 space-y-2">
+            <p><strong>Sale ID:</strong> #{sale.id.toString().padStart(4, '0')}</p>
+            <p><strong>Customer:</strong> {sale.customer}</p>
+            <p><strong>Vehicle:</strong> {sale.vehicle}</p>
+            <p><strong>Sale Date:</strong> {new Date(sale.saleDate).toLocaleDateString()}</p>
+            <p><strong>Salesperson:</strong> {sale.salesperson}</p>
+          </div>
+        </div>
+        <div>
+          <h4 className="font-semibold text-gray-700">Financial Details</h4>
+          <div className="mt-2 space-y-2">
+            <p><strong>Sale Price:</strong> ${sale.salePrice.toLocaleString()}</p>
+            <p><strong>Commission:</strong> ${sale.commission.toLocaleString()}</p>
+            <p><strong>Status:</strong> <Badge className={getStatusColor(sale.status)}>{sale.status}</Badge></p>
+          </div>
+        </div>
+      </div>
+    </DialogContent>
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -126,7 +158,7 @@ const SalesScreen = () => {
         </Card>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center justify-between">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
           <Input
@@ -136,56 +168,119 @@ const SalesScreen = () => {
             className="pl-10 border-yellow-200 focus:border-yellow-400"
           />
         </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant={viewMode === 'cards' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('cards')}
+            className={viewMode === 'cards' ? 'bg-yellow-400 hover:bg-yellow-500 text-gray-800' : ''}
+          >
+            <LayoutGrid className="h-4 w-4" />
+          </Button>
+          <Button
+            variant={viewMode === 'table' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('table')}
+            className={viewMode === 'table' ? 'bg-yellow-400 hover:bg-yellow-500 text-gray-800' : ''}
+          >
+            <LayoutList className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {filteredSales.map((sale) => (
-          <Card key={sale.id} className="border-yellow-200 hover:shadow-md transition-shadow">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center">
-                  <DollarSign className="h-5 w-5 text-white" />
-                </div>
-                <Badge className={getStatusColor(sale.status)}>
-                  {sale.status}
-                </Badge>
-              </div>
-              <CardTitle className="text-lg text-gray-800">
-                Sale #{sale.id.toString().padStart(4, '0')}
-              </CardTitle>
-              <CardDescription className="text-xl font-bold text-yellow-600">
-                ${sale.salePrice.toLocaleString()}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2 text-sm">
-                  <User className="h-4 w-4 text-gray-400" />
-                  <span className="text-gray-600">{sale.customer}</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Car className="h-4 w-4 text-gray-400" />
-                  <span className="text-gray-600">{sale.vehicle}</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Calendar className="h-4 w-4 text-gray-400" />
-                  <span className="text-gray-600">{new Date(sale.saleDate).toLocaleDateString()}</span>
-                </div>
-              </div>
-              <div className="pt-2 border-t border-yellow-100 flex justify-between items-center">
-                <div>
-                  <p className="text-sm text-gray-500">Salesperson</p>
-                  <p className="font-medium text-gray-800">{sale.salesperson}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-gray-500">Commission</p>
-                  <p className="font-medium text-yellow-600">${sale.commission}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {viewMode === 'cards' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {filteredSales.map((sale) => (
+            <Dialog key={sale.id}>
+              <DialogTrigger asChild>
+                <Card className="border-yellow-200 hover:shadow-md transition-shadow cursor-pointer">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center">
+                        <DollarSign className="h-5 w-5 text-white" />
+                      </div>
+                      <Badge className={getStatusColor(sale.status)}>
+                        {sale.status}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-lg text-gray-800">
+                      Sale #{sale.id.toString().padStart(4, '0')}
+                    </CardTitle>
+                    <CardDescription className="text-xl font-bold text-yellow-600">
+                      ${sale.salePrice.toLocaleString()}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2 text-sm">
+                        <User className="h-4 w-4 text-gray-400" />
+                        <span className="text-gray-600">{sale.customer}</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <Car className="h-4 w-4 text-gray-400" />
+                        <span className="text-gray-600">{sale.vehicle}</span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <Calendar className="h-4 w-4 text-gray-400" />
+                        <span className="text-gray-600">{new Date(sale.saleDate).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                    <div className="pt-2 border-t border-yellow-100 flex justify-between items-center">
+                      <div>
+                        <p className="text-sm text-gray-500">Salesperson</p>
+                        <p className="font-medium text-gray-800">{sale.salesperson}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-500">Commission</p>
+                        <p className="font-medium text-yellow-600">${sale.commission}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </DialogTrigger>
+              <SaleModal sale={sale} />
+            </Dialog>
+          ))}
+        </div>
+      ) : (
+        <div className="bg-white rounded-lg border border-yellow-200">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Sale ID</TableHead>
+                <TableHead>Customer</TableHead>
+                <TableHead>Vehicle</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Salesperson</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Date</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredSales.map((sale) => (
+                <Dialog key={sale.id}>
+                  <DialogTrigger asChild>
+                    <TableRow className="cursor-pointer hover:bg-yellow-50">
+                      <TableCell className="font-medium">#{sale.id.toString().padStart(4, '0')}</TableCell>
+                      <TableCell>{sale.customer}</TableCell>
+                      <TableCell>{sale.vehicle}</TableCell>
+                      <TableCell>${sale.salePrice.toLocaleString()}</TableCell>
+                      <TableCell>{sale.salesperson}</TableCell>
+                      <TableCell>
+                        <Badge className={getStatusColor(sale.status)}>
+                          {sale.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{new Date(sale.saleDate).toLocaleDateString()}</TableCell>
+                    </TableRow>
+                  </DialogTrigger>
+                  <SaleModal sale={sale} />
+                </Dialog>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
     </div>
   );
 };
