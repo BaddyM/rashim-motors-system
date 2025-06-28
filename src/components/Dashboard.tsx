@@ -41,20 +41,20 @@ const Dashboard = ({ onLogout }: DashboardProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-yellow-50">
+    <div className="min-h-screen bg-orange-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-yellow-200">
+      <header className="bg-white shadow-sm border-b border-orange-200">
         <div className="px-6 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-orange-400 rounded-lg flex items-center justify-center">
               <Car className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-xl font-bold text-gray-800">Sunny Wheels Dashboard</h1>
+            <h1 className="text-xl font-bold text-gray-800">Rashim Motors Dashboard</h1>
           </div>
           <Button 
             onClick={onLogout} 
             variant="outline"
-            className="border-yellow-400 text-yellow-600 hover:bg-yellow-50"
+            className="border-orange-400 text-orange-600 hover:bg-orange-50"
           >
             <LogOut className="h-4 w-4 mr-2" />
             Logout
@@ -64,7 +64,7 @@ const Dashboard = ({ onLogout }: DashboardProps) => {
 
       <div className="flex">
         {/* Sidebar */}
-        <nav className="w-64 bg-white shadow-sm min-h-[calc(100vh-81px)] border-r border-yellow-200">
+        <nav className="w-64 bg-white shadow-sm min-h-[calc(100vh-81px)] border-r border-orange-200">
           <div className="p-4">
             <ul className="space-y-2">
               {navigationItems.map((item) => {
@@ -75,8 +75,8 @@ const Dashboard = ({ onLogout }: DashboardProps) => {
                       onClick={() => setActiveScreen(item.id)}
                       className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                         activeScreen === item.id
-                          ? 'bg-yellow-400 text-white'
-                          : 'text-gray-700 hover:bg-yellow-50'
+                          ? 'bg-orange-400 text-white'
+                          : 'text-gray-700 hover:bg-orange-50'
                       }`}
                     >
                       <Icon className="h-5 w-5" />

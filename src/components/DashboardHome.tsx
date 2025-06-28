@@ -9,28 +9,28 @@ const DashboardHome = () => {
       value: "156",
       description: "In stock",
       icon: Car,
-      color: "bg-yellow-400"
+      color: "bg-orange-400"
     },
     {
-      title: "Active Customers",
+      title: "Current Debtors",
       value: "89",
       description: "This month",
       icon: Users,
-      color: "bg-yellow-500"
+      color: "bg-orange-500"
     },
     {
       title: "Monthly Sales",
       value: "$245,000",
       description: "+12% from last month",
       icon: DollarSign,
-      color: "bg-yellow-600"
+      color: "bg-orange-600"
     },
     {
       title: "Revenue Growth",
       value: "23%",
       description: "Year over year",
       icon: TrendingUp,
-      color: "bg-yellow-700"
+      color: "bg-orange-700"
     }
   ];
 
@@ -45,7 +45,7 @@ const DashboardHome = () => {
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={index} className="border-yellow-200">
+            <Card key={index} className="border-orange-200">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-gray-600">
                   {stat.title}
@@ -64,7 +64,7 @@ const DashboardHome = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-yellow-200">
+        <Card className="border-orange-200">
           <CardHeader>
             <CardTitle className="text-gray-800">Recent Sales</CardTitle>
             <CardDescription>Latest vehicle sales this week</CardDescription>
@@ -76,42 +76,36 @@ const DashboardHome = () => {
                 { vehicle: "2022 Toyota Camry", customer: "Sarah Johnson", price: "$24,200" },
                 { vehicle: "2023 Ford F-150", customer: "Mike Davis", price: "$42,800" }
               ].map((sale, index) => (
-                <div key={index} className="flex items-center justify-between py-2 border-b border-yellow-100 last:border-b-0">
+                <div key={index} className="flex items-center justify-between py-2 border-b border-orange-100 last:border-b-0">
                   <div>
                     <p className="font-medium text-gray-800">{sale.vehicle}</p>
                     <p className="text-sm text-gray-600">{sale.customer}</p>
                   </div>
-                  <div className="text-yellow-600 font-semibold">{sale.price}</div>
+                  <div className="text-orange-600 font-semibold">{sale.price}</div>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-yellow-200">
+        <Card className="border-orange-200">
           <CardHeader>
-            <CardTitle className="text-gray-800">Low Stock Alerts</CardTitle>
-            <CardDescription>Vehicles running low in inventory</CardDescription>
+            <CardTitle className="text-gray-800">Recent Debtors</CardTitle>
+            <CardDescription>Latest vehicles sold on credit with balance</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {[
-                { model: "Toyota Prius", stock: 2, status: "Critical" },
-                { model: "Honda Civic", stock: 5, status: "Low" },
-                { model: "Ford Escape", stock: 3, status: "Low" }
+                { name: "James Lubwama", date: "25-05-2025", amount: 2500000 },
+                { name: "Sarah Okumu", date: "11-03-2025", amount: 55000000 },
+                { name: "Ford Price", date: "12-02-2025", amount: 12780000 }
               ].map((item, index) => (
-                <div key={index} className="flex items-center justify-between py-2 border-b border-yellow-100 last:border-b-0">
+                <div key={index} className="flex items-center justify-between py-2 border-b border-orange-100 last:border-b-0">
                   <div>
-                    <p className="font-medium text-gray-800">{item.model}</p>
-                    <p className="text-sm text-gray-600">{item.stock} units remaining</p>
+                    <p className="font-medium text-gray-800">{item.name}</p>
+                    <p className="text-sm text-gray-600">{item.date}</p>
                   </div>
-                  <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    item.status === 'Critical' 
-                      ? 'bg-red-100 text-red-800' 
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {item.status}
-                  </div>
+                  <div className="text-orange-600 font-semibold">{Intl.NumberFormat("en-US",{style:"currency",currency:"UGX"}).format(item.amount)}</div>
                 </div>
               ))}
             </div>

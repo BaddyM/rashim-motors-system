@@ -89,7 +89,7 @@ const UsersScreen = () => {
       case "Sales Manager":
         return "bg-blue-100 text-blue-800";
       case "Finance Manager":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-orange-100 text-orange-800";
       case "Sales Associate":
         return "bg-gray-100 text-gray-800";
       default:
@@ -139,7 +139,7 @@ const UsersScreen = () => {
           <h2 className="text-3xl font-bold text-gray-800 mb-2">User Management</h2>
           <p className="text-gray-600">Manage dealership staff and permissions</p>
         </div>
-        <Button className="bg-yellow-400 hover:bg-yellow-500 text-gray-800">
+        <Button className="bg-orange-400 hover:bg-orange-500 text-gray-800">
           <Plus className="h-4 w-4 mr-2" />
           Add User
         </Button>
@@ -152,7 +152,7 @@ const UsersScreen = () => {
             placeholder="Search users..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 border-yellow-200 focus:border-yellow-400"
+            className="pl-10 border-orange-200 focus:border-orange-400"
           />
         </div>
         <div className="flex items-center space-x-2">
@@ -160,7 +160,7 @@ const UsersScreen = () => {
             variant={viewMode === 'cards' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode('cards')}
-            className={viewMode === 'cards' ? 'bg-yellow-400 hover:bg-yellow-500 text-gray-800' : ''}
+            className={viewMode === 'cards' ? 'bg-orange-400 hover:bg-orange-500 text-gray-800' : ''}
           >
             <LayoutGrid className="h-4 w-4" />
           </Button>
@@ -168,7 +168,7 @@ const UsersScreen = () => {
             variant={viewMode === 'table' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode('table')}
-            className={viewMode === 'table' ? 'bg-yellow-400 hover:bg-yellow-500 text-gray-800' : ''}
+            className={viewMode === 'table' ? 'bg-orange-400 hover:bg-orange-500 text-gray-800' : ''}
           >
             <LayoutList className="h-4 w-4" />
           </Button>
@@ -180,10 +180,10 @@ const UsersScreen = () => {
           {filteredUsers.map((user) => (
             <Dialog key={user.id}>
               <DialogTrigger asChild>
-                <Card className="border-yellow-200 hover:shadow-md transition-shadow cursor-pointer">
+                <Card className="border-orange-200 hover:shadow-md transition-shadow cursor-pointer">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center">
                         <User className="h-5 w-5 text-white" />
                       </div>
                       <div className="flex space-x-2">
@@ -219,8 +219,8 @@ const UsersScreen = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="flex space-x-2 pt-2 border-t border-yellow-100">
-                      <Button size="sm" variant="outline" className="flex-1 border-yellow-400 text-yellow-600 hover:bg-yellow-50">
+                    <div className="flex space-x-2 pt-2 border-t border-orange-100">
+                      <Button size="sm" variant="outline" className="flex-1 border-orange-400 text-orange-600 hover:bg-orange-50">
                         <Edit className="h-4 w-4 mr-2" />
                         Edit
                       </Button>
@@ -236,7 +236,7 @@ const UsersScreen = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-lg border border-yellow-200">
+        <div className="bg-white rounded-lg border border-orange-200">
           <Table>
             <TableHeader>
               <TableRow>
@@ -253,7 +253,7 @@ const UsersScreen = () => {
               {filteredUsers.map((user) => (
                 <Dialog key={user.id}>
                   <DialogTrigger asChild>
-                    <TableRow className="cursor-pointer hover:bg-yellow-50">
+                    <TableRow className="cursor-pointer hover:bg-orange-50">
                       <TableCell className="font-medium">{user.name}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
@@ -270,7 +270,7 @@ const UsersScreen = () => {
                       <TableCell>{new Date(user.lastLogin).toLocaleDateString()}</TableCell>
                       <TableCell>
                         <div className="flex space-x-2">
-                          <Button size="sm" variant="outline" className="border-yellow-400 text-yellow-600 hover:bg-yellow-50">
+                          <Button size="sm" variant="outline" className="border-orange-400 text-orange-600 hover:bg-orange-50">
                             <Edit className="h-4 w-4" />
                           </Button>
                           <Button size="sm" variant="outline" className="border-red-400 text-red-600 hover:bg-red-50">
